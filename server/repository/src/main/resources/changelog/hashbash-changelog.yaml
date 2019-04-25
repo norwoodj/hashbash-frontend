@@ -1,4 +1,0 @@
-databaseChangeLog:
-  - include:
-      file: classpath:changelog/includes/changelog-17.1017.sql
-
