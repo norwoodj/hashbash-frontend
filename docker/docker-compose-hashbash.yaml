@@ -19,7 +19,7 @@ services:
       - 55672:55672
 
   webpack_builder:
-    image: hashbash-webpack_builder:current
+    image: jnorwood/hashbash-webpack_builder:current
     entrypoint:
       - node_modules/webpack/bin/webpack.js
       - --watch
@@ -30,7 +30,7 @@ services:
       - frontend-public-volume:/var/lib/johnmalcolmnorwood/hashbash/dist
 
   nginx:
-    image: hashbash-nginx:current
+    image: jnorwood/hashbash-nginx:current
     entrypoint:
       - nginx
       - -c
@@ -43,12 +43,12 @@ services:
     ports:
       - 80:80
 
-  hashbash-server:
-    image: hashbash-server:current
+  hashbash-webapp:
+    image: jnorwood/hashbash-webapp:current
     environment:
       - SPRING_PROFILES_ACTIVE=LCL,DCK,OVR
 
-  hashbash_consumers:
-    image: hashbash-consumers:current
+  hashbash-consumers:
+    image: jnorwood/hashbash-consumers:current
     environment:
       - SPRING_PROFILES_ACTIVE=LCL,DCK,OVR

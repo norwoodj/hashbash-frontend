@@ -24,3 +24,8 @@ To publish the docker images:
 ```
 make push
 ```
+
+To run the application locally, rebuilding frontend assets on changes:
+```
+make run
+```

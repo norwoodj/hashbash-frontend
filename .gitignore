@@ -8,3 +8,4 @@ requirements.lock
 _version.json
 node_modules/
 target/
+version.txt
