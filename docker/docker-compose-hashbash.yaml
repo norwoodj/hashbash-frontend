@@ -44,11 +44,11 @@ services:
       - 80:80
 
   hashbash-webapp:
-    image: jnorwood/hashbash-webapp:current
+    image: jnorwood/hashbash-webapp:release-20190425-1655
     environment:
       - SPRING_PROFILES_ACTIVE=LCL,DCK,OVR
 
   hashbash-consumers:
-    image: jnorwood/hashbash-consumers:current
+    image: jnorwood/hashbash-consumers:release-20190425-1655
     environment:
       - SPRING_PROFILES_ACTIVE=LCL,DCK,OVR
