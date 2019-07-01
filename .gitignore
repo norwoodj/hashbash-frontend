@@ -8,4 +8,6 @@ requirements.lock
 _version.json
 node_modules/
 target/
+nginx
+webpack
 version.txt
