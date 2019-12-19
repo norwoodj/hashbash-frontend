@@ -1,0 +1,9 @@
+Source: hashbash-nginx
+Maintainer: John Norwood <norwood.john.m@gmail.com>
+
+Package: hashbash-nginx
+Priority: extra
+Architecture: any
+Depends: nginx
+Description: hashbash-nginx
+  hashbash nginx instance

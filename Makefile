@@ -1,34 +1,109 @@
-DATE_IMAGE=node:8.11.1-slim
-DOCKER_REPOSITORY=jnorwood
+DOCKER_REPOSITORY := jnorwood
+VERSION_PLACEHOLDER := _VERSION
+VERSION_FILES := package.json package-lock.json
 
-nginx: webpack
-	docker build --tag $(DOCKER_REPOSITORY)/hashbash-nginx:current --file docker/Dockerfile-nginx .
-	touch nginx
+##
+# Build targets
+##
+main: dist
 
-webpack: _version.json
-	docker build --tag $(DOCKER_REPOSITORY)/hashbash-webpack_builder:current --file docker/Dockerfile-webpack_builder .
-	touch webpack
+all: main push
+
+release: all
+	git tag $(cat version.txt)
+	git push --tags
+
+node_modules:
+	npm install
+
+dist: node_modules update-versions version.json
+	cp version.json src/
+	./node_modules/webpack/bin/webpack.js -p --progress
+
+.PHONY: help
+help:
+	@echo "Available Targets:"
+	@echo
+	@echo "  clean           - Clean up build artifacts"
+	@echo "  deb             - Build debian packages for deploying hashbash"
+	@echo "  down            - Tear down the local docker database"
+	@echo "  nginx           - Build the nginx docker image"
+	@echo "  webpack_builder - Build the nginx docker image"
+	@echo "  push            - Push the nginx docker image"
+	@echo "  release         - Build and deploy assets, tag a release"
+	@echo "  run             - Run the app locally in docker"
+	@echo "  run-no-build    - Run the app locally in docker without rebuilding the image"
+
+
+##
+# Versioning targets
+##
+version.txt:
+	date --utc "+%y.%m%d.0" > version.txt
+
+version.json: version.txt
+	echo '{"build-timestamp": "$(shell date --utc --iso-8601=seconds)", "revision": "$(shell git rev-parse HEAD)", "version": "$(shell cat version.txt)"}' | jq . > version.json
+
+update-versions: version.txt
+	sed -i "s|$(VERSION_PLACEHOLDER)|$(shell cat version.txt)|g" $(VERSION_FILES)
+	touch update-versions
+
+update-deb-version: version.txt
+	sed -i "s|$(VERSION_PLACEHOLDER)|$(shell cat version.txt)|g" debian/changelog
+	touch update-deb-version
+
+
+##
+# debian packaging
+##
+.PHONY: deb
+deb: update-deb-version
+	debuild
+
+
+##
+# Docker images
+##
+.PHONY: nginx
+nginx: version.json update-versions
+	cp version.json src/
+	docker-compose build nginx
+
+.PHONY: webpack_builder
+webpack_builder: update-versions
+	docker-compose build webpack_builder
 
 .PHONY: push
-push: nginx version.txt
+push: nginx
 	docker tag $(DOCKER_REPOSITORY)/hashbash-nginx:current $(DOCKER_REPOSITORY)/hashbash-nginx:$(shell cat version.txt)
 	docker push $(DOCKER_REPOSITORY)/hashbash-nginx:$(shell cat version.txt)
 
-version.txt:
-	echo release-$(shell docker run --entrypoint date $(DATE_IMAGE) --utc "+%Y%m%d-%H%M") > version.txt
 
-_version.json: version.txt
-	echo '{"release": "$(shell cat version.txt)"}' > _version.json
-	cp _version.json web/src/
+##
+# Run application
+##
+.PHONY: run
+run: nginx
+	docker-compose up
 
 .PHONY: run
-run: nginx webpack volume
-	docker-compose -f docker/docker-compose-hashbash.yaml up
+run-no-build:
+	docker-compose up
+
+
+##
+# Cleanup
+##
+.PHONY: down
+down:
+	docker-compose down
 
 .PHONY: clean
-clean:
-	rm -f version.txt _version.json nginx webpack volume
+clean: version.txt
+	sed -i "s|$(shell cat version.txt)|$(VERSION_PLACEHOLDER)|g" $(VERSION_FILES)
+	rm -rf dist version.json src/version.json version.txt update-versions
 
-volume:
-	docker volume create --name=hashbash-data
-	touch volume
+.PHONY: debclean
+debclean: version.txt
+	sed -i "s|$(shell cat version.txt)|$(VERSION_PLACEHOLDER)|g" $(VERSION_FILES) debian/changelog
+	rm -rf dist version.json src/version.json version.txt update-versions update-deb-version

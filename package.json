@@ -1,6 +1,6 @@
 {
   "name": "hashbash",
-  "version": "17.0913.0-dev",
+  "version": "_VERSION",
   "description": "Hashbash web rainbow table",
   "repository": "https://github.com/norwoodj/hashbash",
   "dependencies": {

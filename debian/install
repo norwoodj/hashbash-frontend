@@ -1,0 +1,2 @@
+dist opt/hashbash
+nginx.conf opt/hashbash
