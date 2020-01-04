@@ -1,9 +1,16 @@
-application-OVR.properties
 .idea/
 *.iml
 *.tgz
+application-OVR.properties
+debian/.debhelper/
+debian/debhelper-build-stamp
+debian/files
+debian/hashbash-nginx.postrm.debhelper
+debian/hashbash-nginx.substvars
+debian/hashbash-nginx/
 node_modules/
 src/version.json
+update-deb-version
 update-versions
 version.txt
 version.json
