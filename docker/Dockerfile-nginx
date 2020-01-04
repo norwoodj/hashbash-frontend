@@ -35,4 +35,4 @@ RUN mkdir -p ${APP_DIR}/logs \
 COPY --from=artifacts ${APP_DIR}/dist ./dist
 COPY nginx.conf ${APP_DIR}/nginx.conf
 
-ENTRYPOINT ["nginx", "-c", "/opt/hashbash/nginx.conf"]
+ENTRYPOINT ["nginx", "-c", "/opt/hashbash/nginx.conf", "-g", "daemon off;"]
