@@ -2,12 +2,8 @@ application-OVR.properties
 .idea/
 *.iml
 *.tgz
-jscripts/*.sh
-jscripts/utilities/*.sh
-requirements.lock
-_version.json
 node_modules/
-target/
-nginx
-webpack
+src/version.json
+update-versions
 version.txt
+version.json

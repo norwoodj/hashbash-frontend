@@ -64,14 +64,18 @@ deb: update-deb-version
 ##
 # Docker images
 ##
+.PHONY: images
+images: nginx webpack_builder
+	:
+
 .PHONY: nginx
 nginx: version.json update-versions
 	cp version.json src/
-	docker-compose build nginx
+	docker-compose -f docker/docker-compose-hashbash.yaml build nginx
 
 .PHONY: webpack_builder
 webpack_builder: update-versions
-	docker-compose build webpack_builder
+	docker-compose -f docker/docker-compose-hashbash.yaml build webpack_builder
 
 .PHONY: push
 push: nginx
@@ -96,7 +100,7 @@ run-no-build:
 ##
 .PHONY: down
 down:
-	docker-compose down
+	docker-compose -f docker/docker-compose-hashbash.yaml down
 
 .PHONY: clean
 clean: version.txt

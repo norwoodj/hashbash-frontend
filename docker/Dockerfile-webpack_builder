@@ -1,12 +1,12 @@
 FROM node:8.11.1-slim
 MAINTAINER John Norwood
 
-WORKDIR /var/lib/johnmalcolmnorwood/hashbash
-COPY web/package.json .
+WORKDIR /opt/hashbash
+COPY package.json .
 RUN npm install
 
-COPY web/.babelrc .
-COPY web/.eslintrc .
-COPY web/webpack.config.js .
+COPY .babelrc .
+COPY .eslintrc .
+COPY webpack.config.js .
 
 ENTRYPOINT ["node_modules/webpack/bin/webpack.js", "-p", "--progress"]

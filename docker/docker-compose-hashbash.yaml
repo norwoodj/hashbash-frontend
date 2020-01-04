@@ -25,6 +25,9 @@ services:
 
   webpack_builder:
     image: jnorwood/hashbash-webpack_builder:current
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile-webpack_builder
     entrypoint:
       - node_modules/webpack/bin/webpack.js
       - --watch
@@ -36,6 +39,9 @@ services:
 
   nginx:
     image: jnorwood/hashbash-nginx:current
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile-nginx
     entrypoint:
       - nginx
       - -c
@@ -49,11 +55,11 @@ services:
       - 80:80
 
   hashbash-webapp:
-    image: jnorwood/hashbash-webapp:release-20190701-2034
+    image: jnorwood/hashbash-webapp:20.0104.0
     environment:
       - SPRING_PROFILES_ACTIVE=LCL,DCK,OVR
 
   hashbash-consumers:
-    image: jnorwood/hashbash-consumers:release-20190701-2034
+    image: jnorwood/hashbash-consumers:20.0104.0
     environment:
       - SPRING_PROFILES_ACTIVE=LCL,DCK,OVR
