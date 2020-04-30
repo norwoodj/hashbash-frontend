@@ -4,7 +4,7 @@
   "description": "Hashbash web rainbow table",
   "repository": "https://github.com/norwoodj/hashbash",
   "dependencies": {
-    "jquery": "^3.2.1",
+    "jquery": "^3.5.0",
     "muicss": "^0.9.27",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
