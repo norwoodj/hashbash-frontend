@@ -4,7 +4,7 @@ After=syslog.target network.target remote-fs.target nss-lookup.target
 
 [Service]
 Type=forking
-PIDFile=/var/run/hashbash-nginx.pid
+PIDFile=/run/hashbash-nginx.pid
 ExecStartPre=/usr/sbin/nginx -t -c /opt/hashbash/nginx.conf
 ExecStart=/usr/sbin/nginx -c /opt/hashbash/nginx.conf
 ExecReload=/usr/sbin/nginx -c /opt/hashbash/nginx.conf -s reload
