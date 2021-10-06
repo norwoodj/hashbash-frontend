@@ -6,4 +6,7 @@
     missingok
     notifempty
     dateext
+    postrotate
+        [ -f /run/hashbash-nginx.pid ] && kill -USR1 `cat /run/hashbash-nginx.pid`
+    endscript
 }
