@@ -1,4 +1,4 @@
-/opt/hashbash/logs/nginx-*.log {
+/var/log/hashbash/nginx-*.log {
     daily
     rotate 7
     compress
