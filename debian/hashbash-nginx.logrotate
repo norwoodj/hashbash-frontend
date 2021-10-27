@@ -7,6 +7,6 @@
     notifempty
     dateext
     postrotate
-        [ -f /run/hashbash-nginx.pid ] && kill -USR1 `cat /run/hashbash-nginx.pid`
+        [ -f /run/hashbash-frontend/nginx.pid ] && kill -USR1 `cat /run/hashbash-frontend/nginx.pid`
     endscript
 }
