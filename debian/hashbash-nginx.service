@@ -4,12 +4,12 @@ After=syslog.target network.target remote-fs.target nss-lookup.target
 
 [Service]
 Type=forking
-PIDFile=/run/hashbash-frontend/nginx.pid
+PIDFile=/run/hashbash-nginx/nginx.pid
 ExecStartPre=/usr/sbin/nginx -t -c /etc/hashbash/nginx.conf
-ExecStart=/usr/sbin/nginx -c /etc/hashbash/nginx.conf
+ExecStart=/usr/sbin/nginx -c /etc/hashbash/nginx.conf -g "user hashbash;"
 ExecReload=/usr/sbin/nginx -c /etc/hashbash/nginx.conf -s reload
 ExecStop=/bin/kill -s QUIT $MAINPID
-RuntimeDirectory=hashbash-frontend
+RuntimeDirectory=hashbash-nginx
 PrivateTmp=true
 
 [Install]

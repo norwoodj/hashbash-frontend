@@ -18,20 +18,14 @@ I summarized the results of this comparison in a [blog post](https://medium.com/
 
 
 ### Building and Developing Locally
-In order to build, run and develop this project locally you'll need a number of things installed:
-
-* docker
-* docker-compose
-* make
-
-To build the docker image:
-```
-make
-```
-
-To run the application locally, rebuilding frontend assets on changes:
+There is a docker-compose setup for running locally. To start run:
 ```
 make run
+```
+
+To build the docker images:
+```
+make images
 ```
 
 To publish the docker images:

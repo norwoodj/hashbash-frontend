@@ -87,20 +87,16 @@ push: nginx
 # Run application
 ##
 .PHONY: run
-run: nginx
-	docker-compose up
-
-.PHONY: run
-run-no-build:
-	docker-compose up
-
+run: update-versions version.json
+	cp version.json src/
+	docker-compose -f docker/docker-compose-hashbash.yaml up
 
 ##
 # Cleanup
 ##
 .PHONY: down
 down:
-	docker-compose -f docker/docker-compose-hashbash.yaml down
+	docker-compose -f docker/docker-compose-hashbash.yaml down --volumes
 
 .PHONY: clean
 clean: version.txt

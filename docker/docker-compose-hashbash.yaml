@@ -1,23 +1,36 @@
 version: "3"
 
-volumes:
-  frontend-public-volume:
-
-  hashbash-data:
-    external: true
-
 services:
-  mysql:
-    image: mysql:5.7
+  postgresql:
+    image: postgres:11.5
     environment:
-      - MYSQL_ROOT_PASSWORD=root
+      POSTGRES_DB: hashbash
+      POSTGRES_PASSWORD: postgres
     ports:
-      - 3306:3306
+      - published: 5432
+        target: 5432
+
+  migrate:
+    image: jnorwood/hashbash-migrate:23.0724.0
+    depends_on:
+      - postgresql
+    entrypoint:
+      - bash
+      - -c
+      - >
+        /opt/scripts/wait-for-it postgresql:5432 -t 300
+        && /migrate \
+          -database postgresql://postgres:postgres@postgresql/hashbash?sslmode=disable \
+          -path . \
+          up
     volumes:
-      - hashbash-data:/var/lib/mysql
+      - type: bind
+        source: ../scripts
+        target: /opt/scripts
+        read_only: true
 
   rabbitmq:
-    image: rabbitmq:3.6-management-alpine
+    image: rabbitmq:3.7-management-alpine
     ports:
       - 5672:5672
       - 15672:15672
@@ -34,32 +47,117 @@ services:
       - --devtool
       - source-map
     volumes:
-      - ../web/src:/var/lib/johnmalcolmnorwood/hashbash/src:ro
-      - frontend-public-volume:/var/lib/johnmalcolmnorwood/hashbash/dist
+      - type: bind
+        source: ../src
+        target: /etc/hashbash/src
+        read_only: true
+      - type: volume
+        source: frontend-public-volume
+        target: /etc/hashbash/dist
+
+  hashbash-engine:
+    image: jnorwood/hashbash-consumers-go:23.0724.0
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile-engine
+    depends_on:
+      - postgresql
+      - rabbitmq
+    entrypoint:
+      - bash
+      - -c
+      - >
+          /opt/scripts/wait-for-it rabbitmq:5672 -t 300
+          && /opt/scripts/wait-for-it postgresql:5432 -t 300
+          && /hashbash-engine
+    environment:
+      HASHBASH_DATABASE_ENGINE: postgresql
+      HASHBASH_DATABASE_HOST: postgresql
+      HASHBASH_DATABASE_SSL_MODE: disable
+      HASHBASH_DATABASE_USERNAME: postgres
+      HASHBASH_DATABASE_PASSWORD: postgres
+      HASHBASH_RABBITMQ_HOST: rabbitmq
+      HASHBASH_MANAGEMENT_ADDR: 0.0.0.0:8082
+    ports:
+      - published: 8082
+        target: 8082
+    volumes:
+      - type: bind
+        source: ../scripts
+        target: /opt/scripts
+        read_only: true
+
+  hashbash-webapp:
+    image: jnorwood/hashbash-webapp-go:23.0724.0
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile-webapp
+    depends_on:
+      - postgresql
+      - rabbitmq
+    entrypoint:
+      - bash
+      - -c
+      - >
+          /opt/scripts/wait-for-it rabbitmq:5672 -t 300
+          && /opt/scripts/wait-for-it postgresql:5432 -t 300
+          && /hashbash-webapp
+    environment:
+      HASHBASH_DATABASE_ENGINE: postgresql
+      HASHBASH_DATABASE_HOST: postgresql
+      HASHBASH_DATABASE_SSL_MODE: disable
+      HASHBASH_DATABASE_USERNAME: postgres
+      HASHBASH_DATABASE_PASSWORD: postgres
+      HASHBASH_RABBITMQ_HOST: rabbitmq
+      HASHBASH_HTTP_SOCK: /run/hashbash/webapp.sock
+      HASHBASH_MANAGEMENT_ADDR: 0.0.0.0:8081
+    ports:
+      - published: 8081
+        target: 8081
+    volumes:
+      - type: bind
+        source: ../scripts
+        target: /opt/scripts
+        read_only: true
+      - type: volume
+        source: hashbash-webapp-sockets
+        target: /run/hashbash
 
   nginx:
     image: jnorwood/hashbash-nginx:current
     build:
       context: ..
       dockerfile: docker/Dockerfile-nginx
-    entrypoint:
-      - nginx
-      - -c
-      - /etc/nginx/local/nginx.conf
-      - -g
-      - daemon off;
     volumes:
-      - ../etc/nginx:/etc/nginx/local:ro
-      - frontend-public-volume:/var/lib/johnmalcolmnorwood/hashbash/dist:ro
+      - type: bind
+        source: ../nginx.conf
+        target: /etc/hashbash/nginx.conf
+        read_only: true
+      - type: volume
+        source: frontend-public-volume
+        target: /etc/hashbash/dist
+        read_only: true
+      - type: volume
+        source: hashbash-webapp-sockets
+        target: /run/hashbash
+      - type: volume
+        source: hashbash-nginx-runtime
+        target: /run/hashbash-nginx
+
+  socat:
+    image: jnorwood/hashbash-socat:current
+    build:
+      context: docker
+      dockerfile: Dockerfile-socat
     ports:
-      - 80:80
+      - published: 80
+        target: 23080
+    volumes:
+      - type: volume
+        source: hashbash-nginx-runtime
+        target: /run/hashbash-nginx
 
-  hashbash-webapp:
-    image: jnorwood/hashbash-webapp:20.0104.0
-    environment:
-      - SPRING_PROFILES_ACTIVE=LCL,DCK,OVR
-
-  hashbash-consumers:
-    image: jnorwood/hashbash-consumers:20.0104.0
-    environment:
-      - SPRING_PROFILES_ACTIVE=LCL,DCK,OVR
+volumes:
+  frontend-public-volume:
+  hashbash-webapp-sockets:
+  hashbash-nginx-runtime:
