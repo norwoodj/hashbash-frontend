@@ -7,7 +7,7 @@ LABEL maintainer=norwood.john.m@gmail.com
 ARG APP_DIR=/etc/hashbash
 WORKDIR ${APP_DIR}
 
-COPY package.json .
+COPY package.json package-lock.json .
 RUN npm install
 
 COPY .babelrc .
