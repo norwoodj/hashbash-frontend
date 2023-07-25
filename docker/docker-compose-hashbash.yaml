@@ -11,7 +11,7 @@ services:
         target: 5432
 
   migrate:
-    image: jnorwood/hashbash-migrate:23.0724.0
+    image: jnorwood/hashbash-migrate:23.0725.0
     depends_on:
       - postgresql
     entrypoint:
@@ -56,7 +56,7 @@ services:
         target: /etc/hashbash/dist
 
   hashbash-engine:
-    image: jnorwood/hashbash-consumers-go:23.0724.0
+    image: jnorwood/hashbash-consumers-go:23.0725.0
     build:
       context: ..
       dockerfile: docker/Dockerfile-engine
@@ -88,7 +88,7 @@ services:
         read_only: true
 
   hashbash-webapp:
-    image: jnorwood/hashbash-webapp-go:23.0724.0
+    image: jnorwood/hashbash-webapp-go:23.0725.0
     build:
       context: ..
       dockerfile: docker/Dockerfile-webapp
