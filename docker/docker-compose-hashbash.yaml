@@ -10,8 +10,15 @@ services:
       - published: 5432
         target: 5432
 
+  rabbitmq:
+    image: rabbitmq:3.7-management-alpine
+    ports:
+      - 5672:5672
+      - 15672:15672
+      - 55672:55672
+
   migrate:
-    image: jnorwood/hashbash-migrate:23.0725.0
+    image: jnorwood/hashbash-migrate:2023.8.0
     depends_on:
       - postgresql
     entrypoint:
@@ -29,34 +36,8 @@ services:
         target: /opt/scripts
         read_only: true
 
-  rabbitmq:
-    image: rabbitmq:3.7-management-alpine
-    ports:
-      - 5672:5672
-      - 15672:15672
-      - 55672:55672
-
-  webpack_builder:
-    image: jnorwood/hashbash-webpack_builder:current
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile-webpack_builder
-    entrypoint:
-      - node_modules/webpack/bin/webpack.js
-      - --watch
-      - --devtool
-      - source-map
-    volumes:
-      - type: bind
-        source: ../src
-        target: /etc/hashbash/src
-        read_only: true
-      - type: volume
-        source: frontend-public-volume
-        target: /etc/hashbash/dist
-
   hashbash-engine:
-    image: jnorwood/hashbash-consumers-go:23.0725.0
+    image: jnorwood/hashbash-consumers-go:2023.8.0
     build:
       context: ..
       dockerfile: docker/Dockerfile-engine
@@ -88,7 +69,7 @@ services:
         read_only: true
 
   hashbash-webapp:
-    image: jnorwood/hashbash-webapp-go:23.0725.0
+    image: jnorwood/hashbash-webapp-go:2023.8.0
     build:
       context: ..
       dockerfile: docker/Dockerfile-webapp
@@ -122,6 +103,25 @@ services:
       - type: volume
         source: hashbash-webapp-sockets
         target: /run/hashbash
+
+  webpack_builder:
+    image: jnorwood/hashbash-webpack_builder:current
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile-webpack_builder
+    entrypoint:
+      - node_modules/webpack/bin/webpack.js
+      - --watch
+      - --devtool
+      - source-map
+    volumes:
+      - type: bind
+        source: ../src
+        target: /etc/hashbash/src
+        read_only: true
+      - type: volume
+        source: frontend-public-volume
+        target: /etc/hashbash/dist
 
   nginx:
     image: jnorwood/hashbash-nginx:current
