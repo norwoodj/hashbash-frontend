@@ -1,3 +1,9 @@
+hashbash-nginx (2023.8.0) jammy; urgency=medium
+
+  * chore: Updates port in docker config
+
+ -- John Norwood <norwood.john.m@gmail.com>  Sat, 05 Aug 2023 13:25:48 +0100
+
 hashbash-nginx (23.0725.0) unstable; urgency=low
 
   * fix: Copies the package lock file into the image before npm install
