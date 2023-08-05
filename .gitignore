@@ -10,7 +10,7 @@ debian/hashbash-nginx.postrm.debhelper
 debian/hashbash-nginx.substvars
 debian/hashbash-nginx/
 node_modules/
-src/version.json
+src/frontend-version.json
 update-deb-version
 update-versions
 version.txt
