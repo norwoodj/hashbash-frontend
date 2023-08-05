@@ -1,3 +1,10 @@
+hashbash-nginx (2023.8.1) jammy; urgency=medium
+
+  * chore: updates docs to reflect new local run port
+  * chore: generates version file differently and stores it in a different location
+
+ -- John Norwood <norwood.john.m@gmail.com>  Sat, 05 Aug 2023 22:15:28 +0100
+
 hashbash-nginx (2023.8.0) jammy; urgency=medium
 
   * chore: Updates port in docker config
