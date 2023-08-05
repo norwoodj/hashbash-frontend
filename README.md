@@ -18,6 +18,9 @@ I summarized the results of this comparison in a [blog post](https://medium.com/
 
 
 ### Building and Developing Locally
+The main make target builds the distribution artifact, this has been tested with node version 18
+most recently.
+
 There is a docker-compose setup for running locally. To start run:
 ```
 make run

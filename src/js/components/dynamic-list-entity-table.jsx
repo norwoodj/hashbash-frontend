@@ -3,17 +3,16 @@ import PropTypes from "prop-types";
 import ReactTable from "react-table";
 import PagedListState from "../models/paged-list-state";
 
-
 export default class EntityList extends React.Component {
     constructor() {
         super();
         this.pagedListState = new PagedListState();
-        this.state = {pagedListState: this.pagedListState};
+        this.state = { pagedListState: this.pagedListState };
     }
 
     componentDidMount() {
         this.setState(
-            {pagedListState: this.pagedListState},
+            { pagedListState: this.pagedListState },
             this.start.bind(this)
         );
     }
@@ -27,7 +26,10 @@ export default class EntityList extends React.Component {
         this.retrieveEntityCount();
 
         if (this.props.refreshRateSeconds) {
-            setTimeout(this.pollEntityInfo.bind(this), this.props.refreshRateSeconds * 1000);
+            setTimeout(
+                this.pollEntityInfo.bind(this),
+                this.props.refreshRateSeconds * 1000
+            );
         }
     }
 
@@ -39,7 +41,7 @@ export default class EntityList extends React.Component {
     }
 
     retrieveEntities() {
-        this.doRetrieveEntities().then(entities => {
+        this.doRetrieveEntities().then((entities) => {
             this.pagedListState.updateForObjects(entities);
             this.setState(this.pagedListState);
         });
@@ -47,9 +49,13 @@ export default class EntityList extends React.Component {
 
     fetchData(state) {
         let sortKey = state.sorted.length ? state.sorted[0] : null;
-        this.pagedListState.handleFetchData(state.page, state.pageSize, sortKey);
+        this.pagedListState.handleFetchData(
+            state.page,
+            state.pageSize,
+            sortKey
+        );
         this.setState(
-            {pagedListState: this.pagedListState},
+            { pagedListState: this.pagedListState },
             this.retrieveEntities.bind(this)
         );
     }
@@ -62,7 +68,9 @@ export default class EntityList extends React.Component {
         return (
             <ReactTable
                 manual
-                getTrProps={(state, rowInfo) => rowInfo ? this.getRowPropsForEntity(rowInfo.original) : {}}
+                getTrProps={(state, rowInfo) =>
+                    rowInfo ? this.getRowPropsForEntity(rowInfo.original) : {}
+                }
                 columns={this.getEntityTableColumns()}
                 loading={this.state.pagedListState.loading}
                 defaultPageSize={this.state.pagedListState.pageSize}

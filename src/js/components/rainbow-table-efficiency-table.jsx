@@ -3,10 +3,12 @@ import PropTypes from "prop-types";
 import SinglePageStaticListEntityTable from "./single-page-static-list-entity-table";
 import ProgressBar from "./progress-bar";
 
-
 export default class RainbowTableEfficiencyTable extends SinglePageStaticListEntityTable {
     static getNumPossiblePasswords(rainbowTable) {
-        return Math.pow(rainbowTable.characterSet.length, rainbowTable.passwordLength);
+        return Math.pow(
+            rainbowTable.characterSet.length,
+            rainbowTable.passwordLength
+        );
     }
 
     static getMaxContainedPasswords(rainbowTable) {
@@ -23,8 +25,10 @@ export default class RainbowTableEfficiencyTable extends SinglePageStaticListEnt
     }
 
     static getKeySpaceProgressBar(rainbowTable) {
-        let numPossiblePassword = RainbowTableEfficiencyTable.getNumPossiblePasswords(rainbowTable);
-        let maxContainedPassword = RainbowTableEfficiencyTable.getMaxContainedPasswords(rainbowTable);
+        let numPossiblePassword =
+            RainbowTableEfficiencyTable.getNumPossiblePasswords(rainbowTable);
+        let maxContainedPassword =
+            RainbowTableEfficiencyTable.getMaxContainedPasswords(rainbowTable);
 
         return (
             <ProgressBar
@@ -36,12 +40,40 @@ export default class RainbowTableEfficiencyTable extends SinglePageStaticListEnt
 
     getEntityTableColumns() {
         return [
-            {Header: "Chains Generated", accessor: "chainsGenerated"},
-            {Header: "Unique Chains Generated", accessor: "finalChainCount"},
-            {Header: "Generate Efficiency", Cell: row => RainbowTableEfficiencyTable.getEfficiencyProgressBar(row.original), sortable: false},
-            {Header: "Possible Passwords", Cell: row => RainbowTableEfficiencyTable.getNumPossiblePasswords(row.original), sortable: false},
-            {Header: "Passwords in Table", Cell: row => RainbowTableEfficiencyTable.getMaxContainedPasswords(row.original), sortable: false},
-            {Header: "Key Space Coverage", Cell: row => RainbowTableEfficiencyTable.getKeySpaceProgressBar(row.original), sortable: false}
+            { Header: "Chains Generated", accessor: "chainsGenerated" },
+            { Header: "Unique Chains Generated", accessor: "finalChainCount" },
+            {
+                Header: "Generate Efficiency",
+                Cell: (row) =>
+                    RainbowTableEfficiencyTable.getEfficiencyProgressBar(
+                        row.original
+                    ),
+                sortable: false
+            },
+            {
+                Header: "Possible Passwords",
+                Cell: (row) =>
+                    RainbowTableEfficiencyTable.getNumPossiblePasswords(
+                        row.original
+                    ),
+                sortable: false
+            },
+            {
+                Header: "Passwords in Table",
+                Cell: (row) =>
+                    RainbowTableEfficiencyTable.getMaxContainedPasswords(
+                        row.original
+                    ),
+                sortable: false
+            },
+            {
+                Header: "Key Space Coverage",
+                Cell: (row) =>
+                    RainbowTableEfficiencyTable.getKeySpaceProgressBar(
+                        row.original
+                    ),
+                sortable: false
+            }
         ];
     }
 }

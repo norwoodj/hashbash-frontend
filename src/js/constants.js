@@ -1,11 +1,10 @@
-
 let MENU_CATEGORIES = [
     {
         category: "Pages",
         options: [
-            {text: "Home", link: "/"},
-            {text: "Generate New Table", link: "/generate-rainbow-table"},
-            {text: "See Generated Tables", link: "/rainbow-tables"},
+            { text: "Home", link: "/" },
+            { text: "Generate New Table", link: "/generate-rainbow-table" },
+            { text: "See Generated Tables", link: "/rainbow-tables" }
         ]
     }
 ];
@@ -26,9 +25,4 @@ let SearchResult = {
     NOT_FOUND: "NOT_FOUND"
 };
 
-export {
-    MENU_CATEGORIES,
-    APP_NAME,
-    JobStatus,
-    SearchResult
-};
+export { MENU_CATEGORIES, APP_NAME, JobStatus, SearchResult };

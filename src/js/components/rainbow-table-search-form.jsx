@@ -1,8 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import ErrorElement from "./error-element";
-import {is_hash} from "../util";
-
+import { is_hash } from "../util";
 
 export default class SearchRainbowTableForm extends React.Component {
     constructor() {
@@ -18,15 +17,15 @@ export default class SearchRainbowTableForm extends React.Component {
         let hash = document.getElementById("rainbow-table-hash").value;
 
         if (this.submitted.has(hash)) {
-            this.setState({error: `Already submitted hash ${hash}!`});
-            setTimeout(() => this.setState({error: null}), 3000);
+            this.setState({ error: `Already submitted hash ${hash}!` });
+            setTimeout(() => this.setState({ error: null }), 3000);
             return;
         }
 
         let hashFn = this.props.rainbowTable.hashFunction;
         if (!is_hash(hashFn, hash)) {
-            this.setState({error: `${hash} is not a valid ${hashFn} hash!`});
-            setTimeout(() => this.setState({error: null}), 3000);
+            this.setState({ error: `${hash} is not a valid ${hashFn} hash!` });
+            setTimeout(() => this.setState({ error: null }), 3000);
             return;
         }
 
@@ -40,16 +39,24 @@ export default class SearchRainbowTableForm extends React.Component {
     render() {
         return (
             <div>
-                <ErrorElement error={this.state.error}/>
+                <ErrorElement error={this.state.error} />
 
                 <form onSubmit={this.handleSubmit.bind(this)}>
                     <div className="mui-textfield">
-                        <input id="rainbow-table-hash" type="text" name="hash"
-                               placeholder={`${this.props.rainbowTable.hashFunction} hash`} required/>
+                        <input
+                            id="rainbow-table-hash"
+                            type="text"
+                            name="hash"
+                            placeholder={`${this.props.rainbowTable.hashFunction} hash`}
+                            required
+                        />
                         <label>Name</label>
                     </div>
-                    <button id="rainbow-table-search-submit" type="submit"
-                            className="mui-btn mui-btn--raised color-change">
+                    <button
+                        id="rainbow-table-search-submit"
+                        type="submit"
+                        className="mui-btn mui-btn--raised color-change"
+                    >
                         Submit
                     </button>
                 </form>

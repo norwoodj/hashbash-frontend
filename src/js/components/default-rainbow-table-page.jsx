@@ -1,8 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import RainbowTableService from "../services/rainbow-table-service";
-import {getErrorMessage} from "../util";
-
+import { getErrorMessage } from "../util";
 
 export default class DefaultRainbowTablePage extends React.Component {
     constructor() {
@@ -16,29 +15,33 @@ export default class DefaultRainbowTablePage extends React.Component {
     componentDidMount() {
         this.handleErrorMessage(this.props.error);
         this.setState(
-            {rainbowTableService: new RainbowTableService(this.props.httpService, this.handleError.bind(this))},
+            {
+                rainbowTableService: new RainbowTableService(
+                    this.props.httpService,
+                    this.handleError.bind(this)
+                )
+            },
             this.retrieveData.bind(this)
         );
     }
 
     handleError(error) {
         if (!error) {
-            this.setState({error: null});
+            this.setState({ error: null });
             return;
         }
 
-        this.setState({error: getErrorMessage(error)});
+        this.setState({ error: getErrorMessage(error) });
         setTimeout(() => this.handleError(null), 5000);
     }
 
     handleErrorMessage(errorMessage) {
         if (!errorMessage) return;
-        this.setState({error: errorMessage});
+        this.setState({ error: errorMessage });
         setTimeout(() => this.handleError(null), 5000);
     }
 
-    retrieveData() {
-    }
+    retrieveData() {}
 
     render() {
         if (this.state.rainbowTableService === null) {
@@ -48,7 +51,6 @@ export default class DefaultRainbowTablePage extends React.Component {
         return this.renderWithRainbowTableService();
     }
 }
-
 
 DefaultRainbowTablePage.propTypes = {
     httpService: PropTypes.func.isRequired,

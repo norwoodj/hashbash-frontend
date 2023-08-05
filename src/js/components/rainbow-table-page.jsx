@@ -7,19 +7,23 @@ import RainbowTableListTable from "./rainbow-table-list-table";
 import ErrorElement from "./error-element";
 import DefaultRainbowTablePage from "./default-rainbow-table-page";
 
-
 export default class RainbowTablePage extends DefaultRainbowTablePage {
     renderWithRainbowTableService() {
         return (
             <Panel>
-                <ErrorElement error={this.state.error}/>
+                <ErrorElement error={this.state.error} />
                 <h2>Rainbow Tables</h2>
 
-                <div className="mui-divider"/>
-                <RainbowTableListTable rainbowTableService={this.state.rainbowTableService} refreshRateSeconds={5}/>
+                <div className="mui-divider" />
+                <RainbowTableListTable
+                    rainbowTableService={this.state.rainbowTableService}
+                    refreshRateSeconds={5}
+                />
 
                 <a href="/generate-rainbow-table">
-                    <Button className="button color-change" variant="fab">+</Button>
+                    <Button className="button color-change" variant="fab">
+                        +
+                    </Button>
                 </a>
             </Panel>
         );

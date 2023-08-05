@@ -2,14 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 import DynamicListEntityTable from "./dynamic-list-entity-table";
 import Checkbox from "muicss/lib/react/checkbox";
-import {SearchResult} from "../constants";
-import {toTitleCase} from "../util";
-
+import { SearchResult } from "../constants";
+import { toTitleCase } from "../util";
 
 export default class RainbowTableSearchTable extends DynamicListEntityTable {
     constructor() {
         super();
-        Object.assign(this.state, {includeNotFound: false});
+        Object.assign(this.state, { includeNotFound: false });
     }
 
     doRetrieveEntities() {
@@ -23,25 +22,39 @@ export default class RainbowTableSearchTable extends DynamicListEntityTable {
     }
 
     doRetrieveEntityCount() {
-        return this.props.rainbowTableService.getRainbowTableSearchCount(this.props.rainbowTableId, this.state.includeNotFound);
+        return this.props.rainbowTableService.getRainbowTableSearchCount(
+            this.props.rainbowTableId,
+            this.state.includeNotFound
+        );
     }
 
     getEntityTableColumns() {
         return [
-            {Header: "Status", accessor: "status", Cell: row => toTitleCase(row.original.status)},
-            {Header: "Hash", accessor: "hash"},
-            {Header: "Password", accessor: "password"},
-            {Header: "Search Time", Cell: row => row.original.searchTime ? `${row.original.searchTime}s` : "N/A", sortable: false},
+            {
+                Header: "Status",
+                accessor: "status",
+                Cell: (row) => toTitleCase(row.original.status)
+            },
+            { Header: "Hash", accessor: "hash" },
+            { Header: "Password", accessor: "password" },
+            {
+                Header: "Search Time",
+                Cell: (row) =>
+                    row.original.searchTime
+                        ? `${row.original.searchTime}s`
+                        : "N/A",
+                sortable: false
+            }
         ];
     }
 
     getRowPropsForEntity(entity) {
         if (entity.status === SearchResult.NOT_FOUND) {
-            return {className: "entity-failed"};
+            return { className: "entity-failed" };
         } else if (entity.status === SearchResult.FOUND) {
-            return {className: "entity-success"};
+            return { className: "entity-success" };
         } else {
-            return {className: `entity-${entity.status.toLowerCase()}`};
+            return { className: `entity-${entity.status.toLowerCase()}` };
         }
     }
 

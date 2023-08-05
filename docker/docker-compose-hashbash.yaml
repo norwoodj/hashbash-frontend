@@ -150,7 +150,7 @@ services:
       context: docker
       dockerfile: Dockerfile-socat
     ports:
-      - published: 80
+      - published: 23081
         target: 23080
     volumes:
       - type: volume

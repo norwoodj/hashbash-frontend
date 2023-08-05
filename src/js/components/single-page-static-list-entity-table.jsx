@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import ReactTable from "react-table";
 
-
 export default class SinglePageStaticListEntityTable extends React.Component {
     render() {
         return (

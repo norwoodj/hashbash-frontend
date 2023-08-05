@@ -1,6 +1,7 @@
 .idea/
 *.iml
 *.tgz
+dist
 application-OVR.properties
 debian/.debhelper/
 debian/debhelper-build-stamp
