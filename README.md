@@ -21,7 +21,8 @@ I summarized the results of this comparison in a [blog post](https://medium.com/
 The main make target builds the distribution artifact, this has been tested with node version 18
 most recently.
 
-There is a docker-compose setup for running locally. To start run:
+There is a docker-compose setup for running locally. To start run the following,
+then navigate to http://localhost:23280 in your browser.
 ```
 make run
 ```
