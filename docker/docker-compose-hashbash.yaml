@@ -2,7 +2,7 @@ version: "3"
 
 services:
   postgresql:
-    image: postgres:11.5
+    image: postgres:14-bookworm@sha256:3be9a3ad9e8308654b9d26ed2dd0be1767cff86c2d8d31d6125f188735e47d7f
     environment:
       POSTGRES_DB: hashbash
       POSTGRES_PASSWORD: postgres
@@ -11,14 +11,14 @@ services:
         target: 5432
 
   rabbitmq:
-    image: rabbitmq:3.7-management-alpine
+    image: rabbitmq:3.9-management@sha256:74c6f00ed725ca77d8c0d416e01e99cfbaba17aa77bc2d2846d9c0066ab5be61
     ports:
       - 5672:5672
       - 15672:15672
       - 55672:55672
 
   migrate:
-    image: jnorwood/hashbash-migrate:2023.8.1
+    image: jnorwood/hashbash-migrate:2023.9.2
     depends_on:
       - postgresql
     entrypoint:
@@ -37,10 +37,7 @@ services:
         read_only: true
 
   hashbash-engine:
-    image: jnorwood/hashbash-consumers-go:2023.8.1
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile-engine
+    image: jnorwood/hashbash-consumers-go:2023.9.2
     depends_on:
       - postgresql
       - rabbitmq
@@ -69,10 +66,7 @@ services:
         read_only: true
 
   hashbash-webapp:
-    image: jnorwood/hashbash-webapp-go:2023.8.1
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile-webapp
+    image: jnorwood/hashbash-webapp-go:2023.9.2
     depends_on:
       - postgresql
       - rabbitmq
