@@ -27,7 +27,7 @@ webpack-builder: version.json
 	docker-compose -f docker/docker-compose-hashbash.yaml build webpack_builder
 
 push: nginx
-	docker tag $(DOCKER_REPOSITORY)/hashbash-nginx:current $(DOCKER_REPOSITORY)/hashbash-nginx:$(shell git tag -l | tail -n 1)
+	docker tag $(DOCKER_REPOSITORY)/hashbash-nginx $(DOCKER_REPOSITORY)/hashbash-nginx:$(shell git tag -l | tail -n 1)
 	docker push $(DOCKER_REPOSITORY)/hashbash-nginx:$(shell git tag -l | tail -n 1)
 
 

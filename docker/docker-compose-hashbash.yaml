@@ -99,7 +99,7 @@ services:
         target: /run/hashbash
 
   webpack_builder:
-    image: jnorwood/hashbash-webpack_builder:current
+    image: jnorwood/hashbash-webpack_builder
     build:
       context: ..
       dockerfile: docker/Dockerfile-webpack_builder
@@ -118,7 +118,7 @@ services:
         target: /etc/hashbash/dist
 
   nginx:
-    image: jnorwood/hashbash-nginx:current
+    image: jnorwood/hashbash-nginx
     build:
       context: ..
       dockerfile: docker/Dockerfile-nginx
@@ -139,7 +139,7 @@ services:
         target: /run/hashbash-nginx
 
   socat:
-    image: jnorwood/hashbash-socat:current
+    image: jnorwood/hashbash-socat
     build:
       context: docker
       dockerfile: Dockerfile-socat
