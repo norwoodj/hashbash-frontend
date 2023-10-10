@@ -7,6 +7,6 @@
     notifempty
     dateext
     postrotate
-        systemctl reload hashbash-nginx
+        kill -USR1 $(cat /run/hashbash-nginx/nginx.pid)
     endscript
 }
