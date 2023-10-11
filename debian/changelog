@@ -1,3 +1,12 @@
+hashbash-nginx (2023.10.0) jammy; urgency=medium
+
+  * chore: Updates docker images in docker-compose to better reflect what will soon be deployed
+  * chore: no longer tag local images :current
+  * fix: Fixes logrotate file to properly signal nginx to reload its log files
+  * fix: Changes nginx to access log to journal, and removes no longer needed logrotate script
+
+ -- John Norwood <norwood.john.m@gmail.com>  Wed, 11 Oct 2023 22:36:38 +0100
+
 hashbash-nginx (2023.9.2) jammy; urgency=medium
 
   * chore: Logs errors to stderr
