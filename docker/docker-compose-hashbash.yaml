@@ -131,19 +131,35 @@ services:
         source: hashbash-nginx-runtime
         target: /run/hashbash-nginx
       - type: volume
-        source: hashbash-nginx-logs
+        source: hashbash-journal-logs
         target: /run/systemd/journal
+      - type: volume
+        source: hashbash-nginx-exporter-logs
+        target: /run/hashbash-nginx-exporter
 
   journald:
-    image: jnorwood/hashbash-journald
+    image: jnorwood/hashbash-syslog
     build:
       context: docker
-      dockerfile: Dockerfile-journald
+      dockerfile: Dockerfile-syslog
+    environment:
+      SOCKET_PATH: /run/systemd/journal/dev-log
     volumes:
       - type: volume
-        source: hashbash-nginx-logs
+        source: hashbash-journal-logs
         target: /run/systemd/journal
 
+  nginx-log-exporter:
+    image: jnorwood/hashbash-syslog
+    build:
+      context: docker
+      dockerfile: Dockerfile-syslog
+    environment:
+      SOCKET_PATH: /run/hashbash-nginx-exporter/syslog.sock
+    volumes:
+      - type: volume
+        source: hashbash-nginx-exporter-logs
+        target: /run/hashbash-nginx-exporter
   socat:
     image: jnorwood/hashbash-socat
     build:
@@ -158,7 +174,8 @@ services:
         target: /run/hashbash-nginx
 
 volumes:
+  hashbash-journal-logs:
+  hashbash-nginx-exporter-logs:
+  hashbash-nginx-runtime:
   frontend-public-volume:
   hashbash-webapp-sockets:
-  hashbash-nginx-logs:
-  hashbash-nginx-runtime:
