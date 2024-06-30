@@ -25,22 +25,29 @@ $(() => {
                         <br />
                         <p>
                             This is a web-based rainbow table generator and
-                            searcher. It is deployed on a raspberry pi cluster
-                            running kubernetes. Visit my github to view the
-                            salt-stack configuration, build tools, and custom
-                            docker images I&quot;ve built to deploy this and
-                            other projects on this platform.
+                            searcher. It is deployed on a raspberry pi running
+                            in my house. Here&apos;s the{" "}
+                            <a href="https://github.com/norwoodj/rpi-salt">
+                                salt configuration
+                            </a>{" "}
+                            used to do that.
                         </p>
                         <p>
-                            You can see this particular project{" "}
-                            <a href="https://github.com/norwoodj/hashbash">
+                            You can see the code for this project{" "}
+                            <a href="https://github.com/norwoodj/hashbash-backend-go">
                                 here
                             </a>
                             .
                         </p>
                         <p>
-                            You might also visit my other project{" "}
-                            <a href="https://stupidchess.com">stupidchess</a>.
+                            You might also visit my other projects{" "}
+                            <a href="https://stupidchess.jmn23.com">
+                                stupidchess
+                            </a>{" "}
+                            and{" "}
+                            <a href="https://bolas.jmn23.com">bolas</a>. My
+                            personal website can be found{" "}
+                            <a href="https://jmn23.com">here</a>.
                         </p>
                         <h3>Implementation</h3>
                         <p>
@@ -53,13 +60,14 @@ $(() => {
                             </a>
                         </p>
                         <p>
-                            This implementation uses java, spring-batch, and
-                            mysql to generate and store the rainbow table. You
-                            can then use the API or web interface to search
-                            existing rainbow tables. This is certainly not the
-                            most efficient implementation of rainbow tables
-                            possible or available. This was simply a fun way to
-                            implement the algorithm in a user-friendly way.
+                            This implementation uses a postgresql database to
+                            store and search the rainbow tables. The web
+                            interface makes calls to the backend REST API to
+                            generate tables and search existing ones. This is
+                            certainly not the most efficient implementation of
+                            rainbow tables possible or available. This was
+                            simply a fun way to implement the algorithm in a
+                            user-friendly way.
                         </p>
                         <p>What you can do from here:</p>
                         <ul>
