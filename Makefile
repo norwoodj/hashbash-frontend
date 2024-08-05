@@ -20,11 +20,11 @@ deb:
 
 nginx: version.json
 	mv version.json src/frontend-version.json
-	docker-compose -f docker/docker-compose-hashbash.yaml build nginx
+	docker compose -f docker/docker-compose-hashbash.yaml build nginx
 
 webpack-builder: version.json
 	mv version.json src/frontend-version.json
-	docker-compose -f docker/docker-compose-hashbash.yaml build webpack_builder
+	docker compose -f docker/docker-compose-hashbash.yaml build webpack_builder
 
 push: nginx
 	docker tag $(DOCKER_REPOSITORY)/hashbash-nginx $(DOCKER_REPOSITORY)/hashbash-nginx:$(shell git tag -l | tail -n 1)
@@ -33,10 +33,10 @@ push: nginx
 
 run: version.json
 	mv version.json src/frontend-version.json
-	docker-compose -f docker/docker-compose-hashbash.yaml up
+	docker compose -f docker/docker-compose-hashbash.yaml up
 
 down:
-	docker-compose -f docker/docker-compose-hashbash.yaml down --volumes
+	docker compose -f docker/docker-compose-hashbash.yaml down --volumes
 
 clean:
 	rm -rvf dist version.json src/frontend-version.json update-versions

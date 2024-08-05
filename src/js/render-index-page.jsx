@@ -25,8 +25,11 @@ $(() => {
                         <br />
                         <p>
                             This is a web-based rainbow table generator and
-                            searcher. It is deployed on a raspberry pi running
-                            in my house. Here&apos;s the{" "}
+                            searcher implemented as a{" "}
+                            <a href="https://go.dev">golang</a> backend and a{" "}
+                            <a href="https://react.dev">react</a> frontend. It
+                            is deployed on a raspberry pi running in my house.
+                            Here&apos;s the{" "}
                             <a href="https://github.com/norwoodj/rpi-salt">
                                 salt configuration
                             </a>{" "}
@@ -44,10 +47,14 @@ $(() => {
                             <a href="https://stupidchess.jmn23.com">
                                 stupidchess
                             </a>{" "}
-                            and{" "}
-                            <a href="https://bolas.jmn23.com">bolas</a>. My
+                            and <a href="https://bolas.jmn23.com">bolas</a>. My
                             personal website can be found{" "}
-                            <a href="https://jmn23.com">here</a>.
+                            <a href="https://jmn23.com">here</a>. Here&apos;s a
+                            link to my{" "}
+                            <a href="https://github.com/norwoodj/docs/blob/master/docs/resume.md">
+                                resume
+                            </a>
+                            .
                         </p>
                         <h3>Implementation</h3>
                         <p>
@@ -56,7 +63,7 @@ $(() => {
                             cryptographic hash functions. For details on how
                             this works visit{" "}
                             <a href="https://en.wikipedia.org/wiki/Rainbow_table">
-                                this article
+                                this article.
                             </a>
                         </p>
                         <p>
